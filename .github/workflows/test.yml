@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 Reo Yamaguchi
+# SPDX-License-Identifier: BSD-3-Clause:
+name: test
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    container: ryuichiueda/ubuntu22.04-ros2:latest # 上田先生のコンテナを使用
+    steps:
+      - uses: actions/checkout@v2
+      - name: build and test
+        run: |
+          # 1. 依存ライブラリ(psutil)と計算用(bc)のインストール
+          apt-get update
+          apt-get install -y python3-psutil bc
+          # 2. ワークスペースへの配置（ディレクトリ名は合わせる）
+          mkdir -p /root/ros2_ws/src/my_cpu_monitor
+          rsync -av ./ /root/ros2_ws/src/my_cpu_monitor/
+          # 3. ビルドとテスト実行
+          cd /root/ros2_ws
+          # ros2_ws の環境を読み込んでビルド
+          bash -c "source /opt/ros/humble/setup.bash && colcon build"
+          # 自作のしつこいテストをデバッグモード(-xv)で実行
+          bash -xv ./src/my_cpu_monitor/test/test.bash
