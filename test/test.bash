@@ -4,10 +4,14 @@
 
 set -e 
 
-# 環境構築
-source /opt/ros/humble/setup.bash
+DISTRO=${1:-humble}
+
+# 動的に環境を切り替え
+source /opt/ros/$DISTRO/setup.bash
 cd /root/ros2_ws
 source install/setup.bash
+
+echo "--- Running Test on ROS 2 $DISTRO ---"
 
 # Launch起動
 echo "--- Starting Launch File ---"
