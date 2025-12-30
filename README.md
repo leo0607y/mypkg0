@@ -27,14 +27,32 @@
 - 内容: システム全体のCPU使用率（0.0〜100.0）
 
 ## 使用方法
-###　monitor
+### monitor
 - 以下コマンドでCPUの使用率配信を独立して実行
 ```bash
 $ ros2 run my_cpu_monitor monitor
 
 [INFO] [cpu_monitor_node]: CPU Monitor Node has started.
-[INFO] [cpu_monitor_node]: Publishing CPU Usage: 8.7%
-[INFO] [cpu_monitor_node]: Publishing CPU Usage: 2.1%
 [INFO] [cpu_monitor_node]: Publishing CPU Usage: 11.2%
+[INFO] [cpu_monitor_node]: Publishing CPU Usage: 0.2%
+[INFO] [cpu_monitor_node]: Publishing CPU Usage: 0.6%
 ```
+### listener
+- 以下コマンドでCPUの使用率の受信と表示を独立して実行
+```bash
+$ ros2 run my_cpu_monitor listener
+
+[INFO] [cpu_listener_node]: --- SYSTEM RESOURCE MONITOR SUBSCRIPTION STARTED ---
+[INFO] [cpu_listener_node]: [LOW   ] [#####.............................................]  11.2%
+[INFO] [cpu_listener_node]: [LOW   ] [..................................................]   0.2%
+[INFO] [cpu_listener_node]: [LOW   ] [..................................................]   0.6%
+```
+- CPU負荷状況に応じステータスラベルが以下のように変化
+| ステータス | 閾値 (CPU使用率) | ログレベル | 備考 |
+| :--- | :--- | :--- | :--- |
+| `[LOW   ]` | 30% 未満 | `INFO` | 安定状態 |
+| `[MID   ]` | 70% 未満 | `INFO` | 中負荷 |
+| `[HIGH  ]` | 90% 未満 | `WARN` | 注意 |
+| `[ALERT ]` | 90% 以上 | `ERROR` | 警告 |
+
 
