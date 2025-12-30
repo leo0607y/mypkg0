@@ -4,52 +4,44 @@
 
 set -e 
 
-DISTRO=${1:-humble}
-
-# 動的に環境を切り替え
-source /opt/ros/$DISTRO/setup.bash
+#環境構築
+source /opt/ros/humble/setup.bash
 cd /root/ros2_ws
 source install/setup.bash
 
-echo "--- Running Test on ROS 2 $DISTRO ---"
 
-# Launch起動
-echo "--- Starting Launch File ---"
+# Python
+python3 --version
+python3 -c "import psutil; print('psutil version:', psutil.__version__)"
+
+# トピックの入出力
 ros2 launch my_cpu_monitor monitor.launch.py > /tmp/test.log 2>&1 &
 PID=$!
 
-# 起動待ち
+# 待機
 sleep 15
 
-# トピック存在確認
-echo "--- Test 1: Topic Existence ---"
-ros2 topic list | grep '/cpu_usage'
+# トピック生成
+ros2 topic list | grep '/cpu_usage' || (echo "Not Found" && kill $PID && exit 1)
 
-# データ受信と型確認
-echo "--- Test 2: Data Reception ---"
-# 数値だけを抽出
+# 数値範囲
 VALUE=$(ros2 topic echo --once /cpu_usage | grep "data:" | awk '{print $2}')
+echo "CPU使用率: $VALUE"
 
-if [ -z "$VALUE" ]; then
-    echo "Error: No data received on /cpu_usage"
-    kill $PID
-    exit 1
-fi
-
-# (0.0 <= x <= 100.0)
-echo "--- Test 3: Range Check ($VALUE) ---"
-# bcコマンドで比較
-RESULT=$(echo "$VALUE >= 0 && $VALUE <= 100" | bc -l)
-
-if [ "$RESULT" -eq 1 ]; then
-    echo "Check Passed: $VALUE is within valid range."
+# bcで比較
+CHECK=$(echo "$VALUE >= 0 && $VALUE <= 100" | bc -l)
+if [ "$CHECK" -eq 1 ]; then
+    echo "範囲内: $VALUE"
 else
-    echo "Check Failed: $VALUE is invalid."
+    echo "エラー: $VALUE"
     kill $PID
     exit 1
 fi
 
-# 7. 正常終了
-echo "--- Integration Test: ALL PASSED ---"
+# ハッシュゲージ表示
+grep "\[" /tmp/test.log | grep "#" || (echo "ゲージエラー" && kill $PID && exit 1)
+
+# 正常終了
+echo "=== 合格 ==="
 kill $PID
 exit 0

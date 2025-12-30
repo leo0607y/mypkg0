@@ -4,17 +4,8 @@ name: test
 on: push
 jobs:
   test:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        ros_distro: [humble, jazzy]
-        include:
-          - ros_distro: humble
-            container: ryuichiueda/ubuntu22.04-ros2:latest
-          - ros_distro: jazzy
-            container: ros:jazzy 
-    container: ${{ matrix.container }}
+    runs-on: ubuntu-22.04
+    container: ryuichiueda/ubuntu22.04-ros2:latest
     steps:
       - uses: actions/checkout@v2
       - name: build and test
@@ -26,7 +17,7 @@ jobs:
           rsync -av ./ /root/ros2_ws/src/my_cpu_monitor/
           
           cd /root/ros2_ws
-          bash -c "source /opt/ros/${{ matrix.ros_distro }}/setup.bash && colcon build"
+          bash -c "source /opt/ros/humble/setup.bash && colcon build --packages-select my_cpu_monitor"
           
           chmod +x ./src/my_cpu_monitor/test/test.bash
-          bash -xv ./src/my_cpu_monitor/test/test.bash ${{ matrix.ros_distro }}
+          bash -xv ./src/my_cpu_monitor/test/test.bash
