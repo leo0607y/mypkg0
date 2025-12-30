@@ -47,7 +47,7 @@ $ ros2 run my_cpu_monitor listener
 [INFO] [cpu_listener_node]: [LOW   ] [..................................................]   0.2%
 [INFO] [cpu_listener_node]: [LOW   ] [..................................................]   0.6%
 ```
-- CPU負荷状況に応じステータスラベルが以下のように変化
+- CPU使用状況に応じステータスラベルが以下のように変化
 
 | ステータス | 閾値 (CPU使用率) | ログレベル | 備考 |
 | :--- | :--- | :--- | :--- |
@@ -56,4 +56,20 @@ $ ros2 run my_cpu_monitor listener
 | `[HIGH  ]` | 90% 未満 | `WARN` | 注意 |
 | `[ALERT ]` | 90% 以上 | `ERROR` | 警告 |
 
+### launchfile
+- 以下のコマンドを実行すると、CPU監視（monitor）と表示（listener）が連動して動作
+- [monitor-1]: 1秒毎に現在のCPU使用率を計測し、トピック /cpu_usage に送信
+- [listener-2]: 受信したデータを用い、50段階のゲージで視覚化
+```bash
+$ ros2 launch my_cpu_monitor monitor.launch.py
 
+[INFO] [monitor-1]: process started with pid [76402]
+[INFO] [listener-2]: process started with pid [76403]
+[monitor-1] [INFO] [monitor]: CPU Monitor Node has started.
+[listener-2] [INFO] [listener]: --- SYSTEM RESOURCE MONITOR SUBSCRIPTION STARTED ---
+[listener-2] [INFO] [listener]: [LOW   ] [########..........................................]  17.8%
+[monitor-1] [INFO] [monitor]: Publishing CPU Usage: 10.7%
+```
+## 著作及びライセンス
+- このソフトウェアパッケージは、３条項BSDライセンスの下、再頒布及び仕様が許可されます。
+- © 2025 Reo Yamaguchi
