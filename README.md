@@ -3,10 +3,9 @@
 
 本パッケージは、システムのCPU負荷をROS2ネットワーク上に配信する `monitor` ノードと、それを受信してターミナル上にゲージを表示する `listener` ノードで構成。
 
-## テスト環境
-- 実行環境: GitHub-hosted runner (ubuntu-22.04)
-- コンテナイメージ: `ryuichiueda/ubuntu22.04-ros2:latest`
-    - ROS 2 Version: Humble
+## 使用環境
+- ROS2 Humble
+- Ubuntu 22.04
 
 ## 各ノードの機能
 ### monitor
