@@ -2,6 +2,7 @@
 [![test](https://github.com/leo0607y/mypkg0/actions/workflows/test.yml/badge.svg)](https://github.com/leo0607y/mypkg0/actions/workflows/test.yml)
 
 本パッケージは、システムのCPU負荷をROS2ネットワーク上に配信する `monitor` ノードと、それを受信してターミナル上にゲージを表示する `listener` ノードで構成。
+他のROS2ノードと組み合わせて利用可能。
 
 ## 使用環境
 - ROS2 Humble
