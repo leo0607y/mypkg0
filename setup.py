@@ -1,6 +1,6 @@
-##!/usr/bin/env python
+#!/usr/bin/env python
 # SPDX-FileCopyrightText: 2025 Reo Yamaguchi
-# SPDX-License-Identifier: BSD-3-Clause:
+# SPDX-License-Identifier: BSD-3-Clause
 
 from setuptools import find_packages, setup
 import os

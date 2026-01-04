@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2025 Reo Yamaguchi
-# SPDX-License-Identifier: BSD-3-Clause:
+# SPDX-License-Identifier: BSD-3-Clause
 
 set -e 
 

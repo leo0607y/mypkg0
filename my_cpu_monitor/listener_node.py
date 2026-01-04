@@ -1,6 +1,6 @@
-##!/usr/bin/env python
+#!/usr/bin/env python
 # SPDX-FileCopyrightText: 2025 Reo Yamaguchi
-# SPDX-License-Identifier: BSD-3-Clause:
+# SPDX-License-Identifier: BSD-3-Clause
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32
