@@ -72,5 +72,5 @@ $ ros2 launch my_cpu_monitor monitor.launch.py
 [monitor-1] [INFO] [monitor]: Publishing CPU Usage: 10.7%
 ```
 ## 著作及びライセンス
-- このソフトウェアパッケージは、３条項BSDライセンスの下、再頒布及び仕様が許可されます。
+- このソフトウェアパッケージは、３条項BSDライセンスの下、再頒布及び使用が許可されます。
 - © 2025 Reo Yamaguchi
